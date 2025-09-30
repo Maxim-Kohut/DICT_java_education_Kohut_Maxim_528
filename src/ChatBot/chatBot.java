@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
-public class chatBot {
+public class chatBot
+{
     public static void main (String[] args)
     {
         System.out.println("Hello! I'm ChatBot. My name is Andrew.");
@@ -18,8 +19,26 @@ public class chatBot {
         System.out.println("You age is " + age + " that's a good time to start programming!");
         System.out.println("Now I will prove to you that I can count to any number you want!");
         int input4 = scanner.nextInt();
-        for (int i=0; i<=input4; i++) {
+        for (int i=0; i<=input4; i++)
+        {
             System.out.println(i + " !");
         }
+        System.out.println("Chose correct answed!");
+        System.out.println("Ans 1(incorrect)");
+        System.out.println("Ans 2(incorrect)");
+        System.out.println("Ans 3(correct)");
+        System.out.println("Ans 4(incorrect)");
+        int ans;
+        do {
+            ans = scanner.nextInt();
+            if (ans == 3) {
+                System.out.println("Congrat - ans 3 is correct)");
+            } else {
+                System.out.println("Wrong answed!");
+            }
+        }while (ans != 3) ;
+            System.out.println("Goodbye, have a nice day!");
+            scanner.close();
+
     }
 }
