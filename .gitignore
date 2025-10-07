@@ -1,0 +1,15 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+my.txt
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+src/Test.java
+
+# Logs and temp
+*.log
+*.tmp
