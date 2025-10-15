@@ -3,8 +3,8 @@ import java.util.*;
 //St.1-2-3-4-5-6
 // финальный 6
 public class CoffeeMachine {
-    // что есть на старте
-    int water = 400, milk = 540, beans = 120, cups = 9, money = 550;
+    // что есть на старте теперь хранится в отдельном классе MachineState
+    MachState state = new MachState(400, 540, 120, 9, 550);
 
     // список режимов работы машины
     enum Mode { ACTION, CHOICE, FILL_W, FILL_M, FILL_B, FILL_C, EXIT }
@@ -36,18 +36,18 @@ public class CoffeeMachine {
         }
     }
 
-    // сюда прилетает строка от пользователя+ делаем действие
+    // сюда прилетает строка от пользователя + делаем действие
     void handle(String s) {
         switch (mode) {
             case ACTION -> { // главное меню
                 if ("buy".equals(s)) mode = Mode.CHOICE;           // выбир кофе
                 else if ("fill".equals(s)) mode = Mode.FILL_W;     // + заполнение
-                else if ("take".equals(s)) {                        // снятьденьги
-                    System.out.println("I gave you " + money);
-                    money = 0;
-                } else if ("remaining".equals(s)) {                 // остатки
-                    printState();
-                } else if ("exit".equals(s)) {                      // ext
+                else if ("take".equals(s)) {                       // снять деньги
+                    System.out.println("I gave you " + state.money);
+                    state.money = 0;
+                } else if ("remaining".equals(s)) {                // остатки
+                    state.printState();
+                } else if ("exit".equals(s)) {                     // выход
                     mode = Mode.EXIT;
                 }
             }
@@ -60,58 +60,49 @@ public class CoffeeMachine {
                 if ("2".equals(s)) { rw=350; rm=75;  rb=20; price=7; }
                 if ("3".equals(s)) { rw=200; rm=100; rb=12; price=6; }
 
-                // проверяем хватает ли  ресов
+                // проверяем хватает ли ресурсов
                 String lack = checkLack(rw, rm, rb);
                 if (lack != null) {
                     System.out.println("Sorry, not enough " + lack + "!");
-                    mode = Mode.ACTION; // назадв меню
+                    mode = Mode.ACTION; // назад в меню
                     return;
                 }
-                // все ок готовим кофе
+                // все ок — готовим кофе
                 System.out.println("I have enough resources, making you a coffee!");
-                water -= rw; milk -= rm; beans -= rb; cups--; money += price;
+                state.water -= rw; state.milk -= rm; state.beans -= rb; state.cups--; state.money += price;
                 mode = Mode.ACTION;
             }
             case FILL_W -> { // + воду
-                water += toInt(s);
+                state.water += toInt(s);
                 mode = Mode.FILL_M; // дальше молоко
             }
-            case FILL_M -> { // +молоко
-                milk += toInt(s);
+            case FILL_M -> { // + молоко
+                state.milk += toInt(s);
                 mode = Mode.FILL_B; // дальше зерна
             }
-            case FILL_B -> { // +зерна
-                beans += toInt(s);
+            case FILL_B -> { // + зерна
+                state.beans += toInt(s);
                 mode = Mode.FILL_C; // дальше стаканчики
             }
-            case FILL_C -> { // +стаканчики
-                cups += toInt(s);
+            case FILL_C -> { // + стаканчики
+                state.cups += toInt(s);
                 mode = Mode.ACTION; // обратно в меню
             }
             default -> {}
         }
     }
+
     // чекаем, какого ресурса не хватает
     String checkLack(int rw, int rm, int rb) {
-        if (water < rw) return "water";
-        if (milk  < rm) return "milk";
-        if (beans < rb) return "coffee beans";
-        if (cups  < 1)  return "disposable cups";
+        if (state.water < rw) return "water";
+        if (state.milk  < rm) return "milk";
+        if (state.beans < rb) return "coffee beans";
+        if (state.cups  < 1)  return "disposable cups";
         return null; // все норм
     }
 
     // переводим строку в число (если неправильно просто 0)
     int toInt(String s) {
         try { return Integer.parseInt(s); } catch (Exception e) { return 0; }
-    }
-
-    // відаем текущие остатки
-    void printState() {
-        System.out.println("The coffee machine has:");
-        System.out.println(water + " of water");
-        System.out.println(milk  + " of milk");
-        System.out.println(beans + " of coffee beans");
-        System.out.println(cups  + " of disposable cups");
-        System.out.println(money + " of money ");
     }
 }
