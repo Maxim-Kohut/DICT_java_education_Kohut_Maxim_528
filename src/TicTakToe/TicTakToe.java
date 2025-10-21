@@ -70,7 +70,6 @@ public class TicTakToe {
         if (hasEmpty) return "Game not finished";
         return "Draw";
     }
-
     // ---------------- Check coordinates ----------------
     public boolean checkCoordinate(String coords) {
         String[] parts = coords.trim().split("\\s+");
