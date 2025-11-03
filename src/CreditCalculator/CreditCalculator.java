@@ -20,7 +20,7 @@ public class CreditCalculator {
         Integer periods  = periodsS   != null ? Integer.parseInt(periodsS)     : null;
         Double interest  = interestS  != null ? Double.parseDouble(interestS)  : null;
 
-        // ================= проверка всего =================
+        //  проверка всего
         // если тип не annuity и не diff  инкорект
         if (type == null || !(type.equals("annuity") || type.equals("diff"))) {
             System.out.println("Incorrect parameters");

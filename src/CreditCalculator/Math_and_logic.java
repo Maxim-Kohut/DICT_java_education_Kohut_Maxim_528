@@ -14,7 +14,7 @@ public class Math_and_logic {
             double ostatok_dolga = principal - (principal * (mesyac - 1)) / srok_mes;
             // % за этот мес
             double procent_chast = ostatok_dolga * procent_mes;
-            // итого платёж (округляем вверх чтоб не остались копейки)
+            // итого плат (округляем копейки)
             long platezh = (long) Math.ceil(osnovnaya_chast + procent_chast);
 
             vsego_plat += platezh; // прибавляем к общ сумме
@@ -25,7 +25,7 @@ public class Math_and_logic {
         System.out.printf("Overpayment = %d%n", pereplata);
     }
 
-    //======================== annuity fix pay ============================
+    // annuity fix pay
     public void raschet_annuitet(double principal, int srok_mes, double procent_god) {
         // мес % из годового
         double i = procent_god / 1200.0;
@@ -41,10 +41,10 @@ public class Math_and_logic {
         System.out.printf("Overpayment = %d%n", pereplata);
     }
 
-    //======================== find principal ============================
+    // find principal
     public void raschet_principal(double platezh, int srok_mes, double procent_god) {
         double i = procent_god / 1200.0;
-        // обратная формула (ищем principal по известным A, i, n)
+        // обратная формула (ищем principal по  A, i, n)
         double numerator = i * Math.pow(1 + i, srok_mes);
         double denominator = Math.pow(1 + i, srok_mes) - 1;
         long principal = (long) Math.floor(platezh / (numerator / denominator));
@@ -56,12 +56,12 @@ public class Math_and_logic {
         System.out.printf("Overpayment = %d%n", pereplata);
     }
 
-    //======================== find time (months/years) ============================
+    //find time (months/years)
     public void raschet_sroka(double principal, double platezh, double procent_god) {
         double i = procent_god / 1200.0;
         double nReal;
         try {
-            // формула с логарифмом, жесть но работает
+            // формула с логарифмом инкорект
             nReal = Math.log(platezh / (platezh - i * principal)) / Math.log(1 + i);
         } catch (Exception e) {
             System.out.println("Incorrect parameters"); // типо ошибка если что не так
@@ -72,7 +72,7 @@ public class Math_and_logic {
         int y = n / 12;
         int m = n % 12;
 
-        // делаем красиво для вывода срока
+        //  красиво для вывода срока
         StringBuilder s = new StringBuilder();
         if (y > 0) s.append(y).append(" year").append(y != 1 ? "s" : "");
         if (m > 0) {
